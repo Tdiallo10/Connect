@@ -19,7 +19,7 @@ The way this game is played winner gets the chance to become the first player.
 To reset into a new game you must refresh the browser.
 To get started here is a link to my website to the game blow this you can click on the link to head over or copy and paste.
 See You On The Winning Side!!!!!!!!!
-link: [text](http://127.0.0.1:5501/index.html)
+link: (http://127.0.0.1:5501/index.html)
 
 HTML, CSS AND JS CODE used would be
 addEventListener
@@ -27,3 +27,5 @@ addEventListener
  for loops
 
  # connect4
+# connect4
+# connect4

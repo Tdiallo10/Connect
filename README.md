@@ -26,8 +26,3 @@ addEventListener
  functions
  for loops
 
- # connect4
-# connect4
-# connect4
-# c4
-# Connect

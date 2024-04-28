@@ -1,6 +1,6 @@
-let  playerRed = "R";
-let playerYellow = "Y";
-let currPlayer = playerRed;
+let PlayerRed = "R";
+let playerYellow= "Y";
+let currPlayer = PlayerRed;
 
 let gameOver = false;
 let board;
@@ -15,6 +15,8 @@ let columns = 7;
 window.onload = function() {
     setGame();
 }
+
+
 
 function setGame() {
     board = [];
@@ -37,6 +39,7 @@ function setGame() {
         board.push(row);
     }
 
+    updateWinCountsDisplay(); // Adding the number of wins a player has
 
    
 
@@ -59,13 +62,13 @@ function setPiece() {
     
     board[r][c] = currPlayer;
     let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (currPlayer == playerRed) {
+    if (currPlayer == PlayerRed) {
         tile.classList.add("red-piece");
         currPlayer = playerYellow;
     }
     else {
         tile.classList.add("yellow-piece");
-        currPlayer = playerRed;
+        currPlayer = PlayerRed;
     }
 
    r -= 1; //   updating row heigh for columns
@@ -128,14 +131,47 @@ function checkWinner() {
 
 function setWinner(r, c) {
     let winner = document.getElementById("winner");
-    if (board[r][c] == playerRed) {
+    if (board[r][c] == PlayerRed) {
         winner.innerText = "Red Wins";
-       
+        winCountRed++;
     } else {
         winner.innerText = "Yellow Wins";
-      
+        winCountYellow++;
     }
 
     gameOver = true;
+    gameOver = true;
+        displayWinner();
+        updateWinCountsDisplay(); // Update win counts display
+        return;
     
+}
+
+function displayWinner() {
+    // Display winner and highlight winning cells...
+}
+
+function updateWinCountsDisplay() {
+    document.getElementById("win-count-red").innerText = winCountRed;
+    document.getElementById("win-count-yellow").innerText = winCountYellow;
+}
+
+document.getElementById("restButton").addEventListener("click", restGame);
+
+function restGame() {
+    // clears the board 
+       var cells =
+    document.querySelectorAll('.cell');cells.forEach(cell => {
+        cell.classList.remove('red', 'yellow');
+    });
+        
+        currPlayer = 'red';
+}
+
+board = [];
+for (let r= 0; r < 6; r++) {
+    board[r] = [];
+    for(let c = 0; c < 7; c++) {
+        board[r][c] = ';'
+    }
 }

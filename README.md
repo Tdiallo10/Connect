@@ -1,8 +1,10 @@
 Connect Four Game DialloStyle
+
 Connect Four is a classic two-player game where the objective is to be the first to connect four of one's own discs of the same color vertically, horizontally, or diagonally on a grid.
 
 
 Features
+
 Two-player Gameplay: Play against a friend in a turn-based match.
 Dynamic Game Board: The game board adjusts to fit the screen size for optimal viewing.
 Responsive Design: Enjoy the game on desktop, tablet, or mobile devices.
@@ -10,12 +12,14 @@ Win Detection: Automatically detects when a player has connected four discs in a
 Win Counter: Keeps track of each player's wins throughout multiple games.
 
 Technologies Used
+
 HTML: Provides the structure and layout of the game.
 CSS: Styles the game board and user interface.
 JavaScript: Implements the game logic, including player moves and win detection.
 including addEventListener , functions ,  for loops and more
 
 How to Play and rules 
+
 Open the Connect Four Game in your web browser.
 Click on a column to drop a disc of your color.
 Alternate turns with your opponent until one player connects four discs in a row.

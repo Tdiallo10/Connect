@@ -38,11 +38,10 @@ The way this game is played winner gets the chance to become the first player.
 To reset into a new game you must refresh the browser.
 To get started here is a link to my website to the game blow this you can click on the link to head over or copy and paste.
 See You On The Winning Side!!!!!!!!!
-link: (http://127.0.0.1:5501/index.html)
+link: ([http://127.0.0.1:5501/index.html](https://tdiallo10.github.io/Connect/)
 
  
-I took some inspiration for this project from [
-](https://codingtorque.com/connect-four-dots-game-using-javascript/) , :mag_right: document.createElement("div") is for - Google Search
+I took some inspiration for this project from  (https://codingtorque.com/connect-four-dots-game-using-javascript/) , :mag_right: document.createElement("div") is for - Google Search
 and https://www.youtube.com/watch?v=umHdBuTw98c.
 
 

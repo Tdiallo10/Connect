@@ -1,177 +1,128 @@
-let PlayerRed = "R";
-let playerYellow= "Y";
-let currPlayer = PlayerRed;
-
+// Define variables
+let currentPlayer = "Red";
 let gameOver = false;
-let board;
-let currColumns;
+let board = [
+    ["", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", ""]
+];
 
-let winCountRed = 0;
-let winCountYellow = 0;
+// Function to handle a player's move
+function play(column) {
+    if (isGameOver()) return;
 
-let rows = 6;
-let columns = 7;
-
-window.onload = function() {
-    setGame();
-}
-
-
-
-function setGame() {
-    board = [];
-    currColumns = [5, 5, 5, 5, 5, 5, 5]
-
-    for (let r = 0; r < rows; r++) {
-        let row = [];
-        for (let c = 0; c < columns; c++) {
-            // js
-            row.push('');                                                                                                                                                                                                                                                                                                                                                                   
-
-            // html
-            // <div id="0-0" class="tile"></div>
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
-            tile.classList.add("tile");
-            tile.addEventListener("click", setPiece);
-            document.getElementById("board").append(tile);
-        }
-        board.push(row);
+    // Find the lowest available row in the selected column
+    let row = 5;
+    while (row >= 0 && board[row][column] !== "") {
+        row--;
     }
 
-    updateWinCountsDisplay(); // Adding the number of wins a player has
+    // If the column is full, do nothing
+    if (row === -1) return;
 
-   
+    // Update the board with the current player's color
+    board[row][column] = currentPlayer;
 
-}
+    // Update the UI to display the disc with the current player's color
+    document.getElementById(`${row}-${column}`).classList.add(currentPlayer === "Red" ? "red-disc" : "yellow-disc");
 
-function setPiece() {
-    if (gameOver) {
-        return; 
-    }
-
-
-    let coords = this.id.split("-");   // "0-0" -> ["0", "0"]
-    let r = parseInt(coords[0]);
-    let c = parseInt(coords[1]);
-
-    r = currColumns[c];
-    if(r < 0) {
+    // Check for a winner
+    if (checkForWinner(row, column)) {
+        gameOver = true;
+        document.getElementById("winner").innerText = `${currentPlayer} wins!`;
         return;
     }
-    
-    board[r][c] = currPlayer;
-    let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (currPlayer == PlayerRed) {
-        tile.classList.add("red-piece");
-        currPlayer = playerYellow;
-    }
-    else {
-        tile.classList.add("yellow-piece");
-        currPlayer = PlayerRed;
-    }
 
-   r -= 1; //   updating row heigh for columns
-   currColumns[c] = r; //upadating array
-
- checkWinner();
-
+    // Switch player
+    currentPlayer = currentPlayer === "Red" ? "Yellow" : "Red";
 }
 
-function checkWinner() {
-    //horizontally
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns - 3; c++) {
-            if (board[r][c] != '') {
-                if (board[r][c] == board[r][c+1] && board[r][c+1] == board[r][c+2] && board[r][c+2] == board[r][c+3]) {
-                    setWinner(r, c);
-                    return;
-                }
-            }
-        }
-    }
-
-    //vertically
-    for (let c = 0; c < columns; c++) {
-        for (let r = 0; r < rows-3; r++) {
-            if (board[r][c] != '') {
-                if (board[r][c] == board[r+1][c] && board[r+1][c] == board[r+2][c] && board[r+2][c] == board[r+3][c]) {
-                    setWinner(r, c);
-                    return;
-                }
-            }
-        }
-    }
-
-    //anti diagonally
-    for ( let r = 0; r < rows-3; r++){
-        for (let c = 0; c < columns - 3; c++) {
-            if (board[r][c] != '') {
-                if (board[r][c] == board[r+1][c+1] && board[r+1][c+1] == board[r+2][c+2] && board[r+2][c+2] == board[r+3][c+3]) {
-                    setWinner(r, c);
-                    return;
-                }
-            }
-        }
-    }
-
-    //diagonally
-    for (let r =3; r < rows; r++) {
-        for (let c = 0; c < columns -3; c++){
-            if (board[r][c] != '') {
-                if (board[r][c] == board[r-1][c+1] && board[r-1][c+1] == board[r-2][c+2] && board[r-2][c+2] == board[r-3][c+3]) {
-                    setWinner(r, c);
-                    return;
-                }
-            }
-        }
-    }
-
+// Function to check if the game is over
+function isGameOver() {
+    return gameOver;
 }
 
-function setWinner(r, c) {
-    let winner = document.getElementById("winner");
-    if (board[r][c] == PlayerRed) {
-        winner.innerText = "Red Wins";
-        winCountRed++;
-    } else {
-        winner.innerText = "Yellow Wins";
-        winCountYellow++;
+// Function to check for a winner
+function checkForWinner(row, column) {
+    // Check horizontally
+    if (
+        checkLine(row, column, 0, 1) ||
+        checkLine(row, column, 0, -1)
+    ) return true;
+
+    // Check vertically
+    if (checkLine(row, column, 1, 0)) return true;
+
+    // Check diagonally
+    if (
+        checkLine(row, column, 1, 1) ||
+        checkLine(row, column, 1, -1)
+    ) return true;
+
+    return false;
+}
+
+// Function to check if there are four consecutive discs in a line
+function checkLine(row, column, deltaRow, deltaColumn) {
+    const disc = board[row][column];
+    let count = 1; // Count of consecutive discs
+
+    // Check forward
+    let r = row + deltaRow;
+    let c = column + deltaColumn;
+    while (r >= 0 && r < 6 && c >= 0 && c < 7 && board[r][c] === disc) {
+        count++;
+        r += deltaRow;
+        c += deltaColumn;
     }
 
-    gameOver = true;
-    gameOver = true;
-        displayWinner();
-        updateWinCountsDisplay(); // Update win counts display
-        return;
-    
+    // Check backward
+    r = row - deltaRow;
+    c = column - deltaColumn;
+    while (r >= 0 && r < 6 && c >= 0 && c < 7 && board[r][c] === disc) {
+        count++;
+        r -= deltaRow;
+        c -= deltaColumn;
+    }
+
+    // If count is 4 or more, we have a winner
+    return count >= 4;
 }
 
-function displayWinner() {
-    // Display winner and highlight winning cells...
-}
+// Function to reset the game
+function resetGame() {
+    currentPlayer = "Red";
+    gameOver = false;
+    board = [
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", ""]
+    ];
 
-function updateWinCountsDisplay() {
-    document.getElementById("win-count-red").innerText = winCountRed;
-    document.getElementById("win-count-yellow").innerText = winCountYellow;
-}
+    document.getElementById("winner").innerText = "";
 
-document.getElementById("restButton").addEventListener("click", restGame);
-
-function restGame() {
-    // clears the board 
-       var cells =
-    document.querySelectorAll('.cell');cells.forEach(cell => {
-        cell.classList.remove('red', 'yellow');
+    // Remove disc colors from all tiles
+    document.querySelectorAll('.tile').forEach(tile => {
+        tile.classList.remove("red-disc", "yellow-disc");
     });
-        
-        currPlayer = 'red';
 }
 
-board = [];
-for (let r= 0; r < 6; r++) {
-    board[r] = [];
-    for(let c = 0; c < 7; c++) {
-        board[r][c] = ';'
-    }
-}
+// Add event listener to reset button after the DOM has fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("resetButton").addEventListener("click", resetGame);
+
+    // Add event listeners to each tile on the board
+    document.querySelectorAll(".tile").forEach((tile, index) => {
+        tile.addEventListener("click", () => {
+            if (!isGameOver()) {
+                play(index % 7);
+            }
+        });
+    });
+});

@@ -1,4 +1,4 @@
-Connect Four Game DialloStyle
+Connect 4 Game DialloStyle
 
 Connect Four is a classic two-player game where the objective is to be the first to connect four of one's own discs of the same color vertically, horizontally, or diagonally on a grid.
 
@@ -41,8 +41,9 @@ See You On The Winning Side!!!!!!!!!
 link: (http://127.0.0.1:5501/index.html)
 
  
-
-
+I took some inspiration for this project from [
+](https://codingtorque.com/connect-four-dots-game-using-javascript/) , :mag_right: document.createElement("div") is for - Google Search
+and https://www.youtube.com/watch?v=umHdBuTw98c.
 
 
 
